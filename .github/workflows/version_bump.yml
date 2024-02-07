@@ -16,26 +16,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_PAT }}
-      
-      - name: Check for skip
-        run: |
-          skip_count=$(git log -n 1 | grep "\[skip-ci\]" | wc -l)
-          if [ $skip_count -ge 1 ]; then
-            skip=1
-          else
-            skip=0
-          fi
-      - name: Setup Python
+
+      - name: Setup Python # Required for bump_version.sh which calls python semver
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x' # Specify the Python version
+          python-version: '3.x'
 
-      - name: Install semver
+      - name: Install semver # Required for bump_version.sh which calls python semver
         run: python -m pip install semver
 
-      - name: Run Version Bump Script
+      - name: Check and Bump Version 
         run: |
-          skip_count=$(git log -n 1 | grep "\[skip-ci\]" | wc -l)
+          skip_count=$(git log -n 1 | grep "\[skip-ci\]" | wc -l) # Check for [skip-ci] in last commit
           if [ $skip_count -ge 1 ]; then
             echo Skipping CI as commit contains [skip-ci]
           else
