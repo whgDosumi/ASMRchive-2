@@ -43,6 +43,3 @@ cat CHANGELOG.md >> $TEMP_FILE
 # Replace old changelog with new content
 mv $TEMP_FILE CHANGELOG.md
 
-# Commit changes
-git add version.txt CHANGELOG.md
-git commit -m "chore(release): bump version to $NEW_VERSION [skip ci]"
