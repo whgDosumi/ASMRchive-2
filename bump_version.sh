@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Bumps version based on previous commit message.
+
 # Read the last commit message
 LAST_COMMIT_MSG=$(git log -1 --pretty=%B)
 
