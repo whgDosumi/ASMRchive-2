@@ -24,18 +24,10 @@ echo $NEW_VERSION > version.txt
 # Temporary file for new changelog content
 TEMP_FILE=$(mktemp)
 
-# Check if the first line of commit message starts with "-"
-FIRST_LINE=$(echo "$LAST_COMMIT_MSG" | head -n 1)
-if [[ "$FIRST_LINE" == -* ]]; then
-  FORMATTED_COMMIT_MSG="$LAST_COMMIT_MSG"
-else
-  FORMATTED_COMMIT_MSG="- $LAST_COMMIT_MSG"
-fi
-
 # Format new changelog entry
 {
     echo "## $NEW_VERSION - $(date +%Y-%m-%d)"
-    echo "$FORMATTED_COMMIT_MSG"
+    echo "$LAST_COMMIT_MSG"
     echo
 } > $TEMP_FILE
 
