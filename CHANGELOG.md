@@ -1,3 +1,8 @@
+## 0.1.1 - 2024-02-08
+Auto-versioning formatting fix
+
+* bug: Fix changelog logic
+
 ## 0.1.0 - 2024-02-07
 Postgres Database
 
