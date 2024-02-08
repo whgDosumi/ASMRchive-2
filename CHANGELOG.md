@@ -1,8 +1,5 @@
-## 0.1.1 - 2024-02-08
-bug: Fix changelog logic
-
 ## 0.1.0 - 2024-02-07
-- feat: Add postgres database
+Postgres Database
 
 * feat: Add basic postgres database
 
