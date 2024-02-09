@@ -41,6 +41,7 @@ pipeline {
     }
     post {
         always {
+            input(id: 'userInput', message: 'Is the build okay?')
             sh "podman-compose down" // Shut down the services in case they're still running
 
             // Remove volumes
