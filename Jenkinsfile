@@ -1,5 +1,15 @@
 pipeline {
     agent any
+    options {
+        // For throttling other builds
+        throttleJobProperty(
+        categories: ['ASMRchive-2'],
+        throttleEnabled: true,
+        throttleOption: 'category'
+        )
+        // Only keep 3 builds
+        buildDiscarder(logRotator(numToKeepStr: '3'))
+    }
     stages {
         stage("Initialize Environment") { // Defines environment variables for staging vs prod
             steps {
