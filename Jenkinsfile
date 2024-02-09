@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         ENVIRONMENT = "" // Set during "Initialize Environment" stage
+
+        DB_VOLUME_NAME = "asmr-db-data"
     }
     stages {
         stage("Initialize Environment") { // Defines environment variables for staging vs prod
@@ -11,11 +13,13 @@ pipeline {
                     if (env.JOB_NAME.startsWith("ASMRchive-2/Staging")) {
                         withCredentials([string(credentialsId: "asmrchive2-staging-POSTGRES_PASSWORD", variable: "POSTGRES_PASSWORD")]) {
                             env.ENVIRONMENT = "staging"
+                            env.DB_VOLUME_NAME = "asmr-db-data-staging"
+
                             sh "echo POSTGRES_USER=dbadmin > .env"
                             sh "echo POSTGRES_PASSWORD=${env.POSTGRES_PASSWORD} >> .env"
                             sh "echo POSTGRES_DB=ASMRchive >> .env"
                             sh "echo DB_PORT=5433 >> .env"
-                            sh "echo DB_VOLUME_NAME=asmr-db-data-staging >> .env"
+                            sh "echo DB_VOLUME_NAME=${env.DB_VOLUME_NAME} >> .env"
                             sh "echo DB_IMAGE_NAME=ASMRchive-db-staging >> .env"
                             sh "echo PYTHON_IMAGE_NAME=ASMRchive-python-staging >> .env"
                         }
@@ -25,6 +29,7 @@ pipeline {
         }
         stage("Build") {
             steps {
+                sh "podman volume create ${env.DB_VOLUME_NAME}"
                 sh "podman-compose up -d --no-deps --build db python"
             }
         }
