@@ -1,3 +1,10 @@
+volumes:
+  asmr-db-data-dev:
+  asmr-db-data-staging:
+  asmr-db-data-prod:
+  asmr-db-data:
+  
+
 services:
 
   db:
