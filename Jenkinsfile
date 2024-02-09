@@ -23,8 +23,10 @@ pipeline {
             }
         }
         stage("Tidy Up") {
-            // Remove any remnant volumes.
-            sh "podman volume rm ${env.DB_VOLUME_NAME}"
+            steps {
+                // Remove any remnant volumes.
+                sh "podman volume rm ${env.DB_VOLUME_NAME}"
+            }
         }
         stage("Build") {
             steps {
