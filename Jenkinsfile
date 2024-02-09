@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    environment {
-        ENVIRONMENT = "" // Set during "Initialize Environment" stage
-
-        DB_VOLUME_NAME = "asmr-db-data"
-    }
     stages {
         stage("Initialize Environment") { // Defines environment variables for staging vs prod
             steps {
@@ -27,6 +22,10 @@ pipeline {
                 }
             }
         }
+        stage("Tidy Up") {
+            // Remove any remnant volumes.
+            sh "podman volume rm ${env.DB_VOLUME_NAME}"
+        }
         stage("Build") {
             steps {
                 sh "podman volume create ${env.DB_VOLUME_NAME}"
@@ -45,7 +44,7 @@ pipeline {
             sh "podman-compose down" // Shut down the services in case they're still running
 
             // Remove volumes
-            sh "podman volume rm asmr-db-data-staging"
+            sh "podman volume rm ${env.DB_VOLUME_NAME}"
 
             // Remove images (we want to rebuild from source every time in staging.)
             sh "podman ps -a -q -f ancestor=ASMRchive-python-staging | xargs -I {} podman container rm -f {} || true"
