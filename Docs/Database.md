@@ -8,7 +8,7 @@ The .env.sample file provides a basic configuration example. You can copy this f
 
 ### Configuration Values
 - POSTGRES_USER - Default username for accessing the database  
-- POSTGRES_PASS - The password for the POSTGRES_USER
+- POSTGRES_PASSWORD - The password for the POSTGRES_USER
 - POSTGRES_DB - The database name. Usually this should be left as ASMRchive.
 - DB_PORT - The port the container host will expect database traffic to come in on. Default is 5432.
 
