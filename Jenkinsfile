@@ -25,7 +25,7 @@ pipeline {
         stage("Tidy Up") {
             steps {
                 // Remove any remnant volumes.
-                sh "podman volume rm ${env.DB_VOLUME_NAME}"
+                sh "podman volume rm ${env.DB_VOLUME_NAME} || true"
             }
         }
         stage("Build") {
@@ -46,7 +46,7 @@ pipeline {
             sh "podman-compose down" // Shut down the services in case they're still running
 
             // Remove volumes
-            sh "podman volume rm ${env.DB_VOLUME_NAME}"
+            sh "podman volume rm ${env.DB_VOLUME_NAME} || true"
 
             // Remove images (we want to rebuild from source every time in staging.)
             sh "podman ps -a -q -f ancestor=ASMRchive-python-staging | xargs -I {} podman container rm -f {} || true"
