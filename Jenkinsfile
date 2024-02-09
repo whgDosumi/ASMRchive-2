@@ -15,8 +15,8 @@ pipeline {
                             sh "echo POSTGRES_DB=ASMRchive >> .env"
                             sh "echo DB_PORT=5433 >> .env"
                             sh "echo DB_VOLUME_NAME=${env.DB_VOLUME_NAME} >> .env"
-                            sh "echo DB_IMAGE_NAME=ASMRchive-db-staging >> .env"
-                            sh "echo PYTHON_IMAGE_NAME=ASMRchive-python-staging >> .env"
+                            sh "echo DB_IMAGE_NAME=asmrchive-db-staging >> .env"
+                            sh "echo PYTHON_IMAGE_NAME=asmrchive-python-staging >> .env"
                         }
                     }
                 }
@@ -42,7 +42,6 @@ pipeline {
     }
     post {
         always {
-            input(id: 'userInput', message: 'Is the build okay?')
             sh "podman-compose down" // Shut down the services in case they're still running
 
             // Remove volumes
