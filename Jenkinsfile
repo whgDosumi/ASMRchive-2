@@ -47,9 +47,9 @@ pipeline {
             // Remove volumes
             sh "podman volume rm ${env.DB_VOLUME_NAME} || true"
 
-            // Remove images (we want to rebuild from source every time in staging.)
-            sh "podman ps -a -q -f ancestor=ASMRchive-python-staging | xargs -I {} podman container rm -f {} || true"
-            sh "podman ps -a -q -f ancestor=ASMRchive-db-staging | xargs -I {} podman container rm -f {} || true"
+            // Remove containers
+            sh "podman ps -a -q -f ancestor=asmrchive-python-staging | xargs -I {} podman container rm -f {} || true"
+            sh "podman ps -a -q -f ancestor=asmrchive-db-staging | xargs -I {} podman container rm -f {} || true"
         }
     }
 }

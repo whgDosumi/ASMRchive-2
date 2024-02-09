@@ -1,4 +1,4 @@
-FROM python:3.12.2
+FROM docker.io/library/python:3.12.2
 
 # This is where the appliction will live in the container
 WORKDIR /app
