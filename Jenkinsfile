@@ -28,9 +28,12 @@ pipeline {
                             sh "echo POSTGRES_PASSWORD=${env.POSTGRES_PASSWORD} >> .env"
                             sh "echo POSTGRES_DB=ASMRchive >> .env"
                             sh "echo DB_PORT=5433 >> .env"
-                            sh "echo DB_VOLUME_NAME=${env.DB_VOLUME_NAME} >> .env"
+                            sh "echo DB_VOLUME_NAME=asmr-db-data-staging >> .env"
                             sh "echo DB_IMAGE_NAME=asmrchive-db-staging >> .env"
-                            sh "echo PYTHON_IMAGE_NAME=asmrchive-python-staging >> .env"
+                            sh "echo DB_CONTAINER_NAME=asmrchive-db-staging >> .env"
+                            sh "echo DJANGO_IMAGE_NAME=asmrchive-django-staging >> .env"
+                            sh "echo DJANGO_CONTAINER_NAME=asmrchive-django-staging >> .env"
+                            sh "echo DJANGO_PORT=8001 >> .env"
                         }
                     }
                 }
