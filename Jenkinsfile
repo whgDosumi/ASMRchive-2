@@ -56,7 +56,7 @@ pipeline {
         stage("Launch") {
             steps {
                 sh "podman volume create ${env.DB_VOLUME_NAME}"
-                sh "podman-compose up -d"
+                sh "podman-compose up -p '' -d"
             }
         }
         stage("Manual Review") { 
