@@ -42,8 +42,7 @@ pipeline {
         stage("Tidy Up") {
             steps {
                 // Remove any remnant volumes.
-                sh "dirname=\${PWD##*/}"
-                sh "podman volume rm $dirname${env.DB_VOLUME_NAME} || true"
+                sh "podman volume rm \${PWD##*/}${env.DB_VOLUME_NAME} || true"
                 // Remove staging containers
                 sh "podman ps -a -q -f ancestor=asmrchive-python-staging | xargs -I {} podman container rm -f {} || true"
                 sh "podman ps -a -q -f ancestor=asmrchive-db-staging | xargs -I {} podman container rm -f {} || true"
@@ -70,8 +69,7 @@ pipeline {
             sh "podman-compose down" // Shut down the services in case they're still running
 
             // Remove volumes
-            sh "dirname=\${PWD##*/}"
-            sh "podman volume rm $dirname${env.DB_VOLUME_NAME} || true"
+            sh "podman volume rm \${PWD##*/}${env.DB_VOLUME_NAME} || true"
 
             // Remove containers
             sh "podman ps -a -q -f ancestor=asmrchive-python-staging | xargs -I {} podman container rm -f {} || true"
