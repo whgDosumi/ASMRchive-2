@@ -55,7 +55,7 @@ pipeline {
         }
         stage("Launch") {
             steps {
-                sh "podman-compose -p up -d"
+                sh "podman-compose up -d"
             }
         }
         stage("Manual Review") { 
