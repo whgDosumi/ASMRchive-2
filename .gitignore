@@ -1,2 +1,49 @@
-.env
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore local settings
+local_settings.py
+
+# Ignore secrets and sensitive information
+*.env
+*.secret
+*.key
+
+# Ignore IDE/Editor specific files
+.vscode/
+.idea/
+.vs/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.swp
+*~
+
+# Ignore generated files
+*.mo
+*.pot
+*.pyc
+__pycache__/
+*.pyo
+
+# Ignore dependency management
+*.lock
+pip-log.txt
+pip-log.json
+yarn-error.log
+npm-debug.log
+
+# Ignore miscellaneous
+.DS_Store
+.coverage
 dev_tools/*
+docker-compose.override.yml

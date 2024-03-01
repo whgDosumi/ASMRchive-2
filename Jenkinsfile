@@ -10,16 +10,20 @@ pipeline {
         // Only keep 3 builds
         buildDiscarder(logRotator(numToKeepStr: '3'))
     }
+    parameters {
+        // Determines whether we should skip the manual review step
+        booleanParam(defaultValue: false, description: "Manually test live environment", name: "MANUAL_REVIEW")
+    }
     stages {
         stage("Initialize Environment") { // Defines environment variables for staging vs prod
             steps {
                 script {
                     // Staging
+                    echo "Job name: ${env.JOB_NAME}"
                     if (env.JOB_NAME.startsWith("ASMRchive-2/Staging")) {
                         withCredentials([string(credentialsId: "asmrchive2-staging-POSTGRES_PASSWORD", variable: "POSTGRES_PASSWORD")]) {
                             env.ENVIRONMENT = "staging"
                             env.DB_VOLUME_NAME = "asmr-db-data-staging"
-
                             sh "echo POSTGRES_USER=dbadmin > .env"
                             sh "echo POSTGRES_PASSWORD=${env.POSTGRES_PASSWORD} >> .env"
                             sh "echo POSTGRES_DB=ASMRchive >> .env"
@@ -36,13 +40,19 @@ pipeline {
             steps {
                 // Remove any remnant volumes.
                 sh "podman volume rm ${env.DB_VOLUME_NAME} || true"
+                // Remove staging containers
+                sh "podman ps -a -q -f ancestor=asmrchive-python-staging | xargs -I {} podman container rm -f {} || true"
+                sh "podman ps -a -q -f ancestor=asmrchive-db-staging | xargs -I {} podman container rm -f {} || true"
             }
         }
         stage("Build") {
             steps {
-                sh "podman volume create ${env.DB_VOLUME_NAME}"
-                sh "podman-compose up -d --no-deps --build db python"
+                sh "podman-compose build"
             }
+        }
+        stage("Launch") {
+            sh "podman volume create ${env.DB_VOLUME_NAME}"
+            sh "podman-compose up -d"
         }
         stage("Manual Review") { 
             steps {
