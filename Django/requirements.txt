@@ -1,4 +1,4 @@
 django==4.2.10
 celery==5.3.6
 django-celery-beat==2.5.0
-psycopg2-binary
+psycopg2-binary==2.9.9
