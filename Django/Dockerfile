@@ -3,6 +3,8 @@ FROM docker.io/library/python:3.12.2
 # We'll work out of the /app folder
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y redis
+
 # Copy in and install requirements
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
